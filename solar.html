@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script type="text/javascript">
+		var earth = new Image();
+		var sun = new Image();
+		var moon = new Image();
+		function init() {
+			earth.src='earth.jpg';
+		 	sun.src= 'sun.jpg';
+ 			moon.src='moon.jpg';
+			window.requestAnimationFrame(draw);
+		}
+		function draw() {
+  			var ctx = document.getElementById('canvas').getContext('2d');// accessing the canvas object 
+
+	  		ctx.clearRect(0, 0, 300, 300); // clear canvas
+			//Save the current canvas context object
+
+  			ctx.strokeStyle="white"; // Earth orbit
+			ctx.stroke();
+ 			window.requestAnimationFrame(draw);
+  			ctx.save();
+  			// Earth
+  			//we move the entire canvas to the center of the specific component, using the translate method
+  			ctx.translate(150, 150);
+  			//It is just a variable we used to calculate the rotation angle
+  			var time = new Date();
+  			//earth movement 
+  			//wanted rotation using the rotate() method
+  			ctx.rotate(((2 * Math.PI) / 60) * time.getSeconds() + ((2 * Math.PI) / 60000) * time.getMilliseconds());
+  			ctx.translate(90, 0); //radius of circle for earth movement
+  			ctx.drawImage(earth, -13, -13,30,30);
+			// Moon
+  			ctx.save();
+  			ctx.rotate( ((2*Math.PI)/6)*time.getSeconds() + ((2*Math.PI)/6000)*time.getMilliseconds() );
+  			ctx.translate(30,0);
+  			ctx.drawImage(moon,-12,-12,15,15);
+  			ctx.restore();
+			//restore the context object back to its saved position, using the restore method
+  			ctx.restore();
+			ctx.fillStyle = "black";
+  			ctx.drawImage(sun,120,125,65,65);
+  			ctx.arc(150, 155, 90, 0, Math.PI * 2, false);
+		}
+	</script>
+</head>
+<body>
+<canvas id="canvas" width="300" height="300" style="background-color: black"></canvas>
+<script type="text/javascript">
+	window.onload=init();
+</script>
+</body>
+</html>
